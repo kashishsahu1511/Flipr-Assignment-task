@@ -9,7 +9,21 @@ const path = require("path");
 const app = express();
 
 // -------------------- MIDDLEWARE --------------------
-app.use(cors());
+// CORS configuration for multiple environments
+const corsOptions = {
+  origin: [
+    'http://localhost:5175',
+    'http://localhost:3000',
+    'https://real-trust.vercel.app',
+    'https://real-trust-frontend.vercel.app',
+    process.env.FRONTEND_URL
+  ].filter(Boolean),
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
